@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Closet</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/my-closet.css') }}">
+</head>
+<body>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">My-Closet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ログアウト</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- プロフィールセクション -->
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-4 text-center">
+                <img src="https://via.placeholder.com/150" class="rounded-circle" alt="User Icon">
+                <h3 class="mt-2">ユーザー名</h3>
+                <p class="text-muted">フォロー: 123 | フォロワー: 456</p>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-md-4">
+                        <h5>服の数</h5>
+                        <p>50</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>合計金額</h5>
+                        <p>¥150,000</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>交換希望</h5>
+                        <p>5</p>
+                    </div>
+                    <div class="col-md-4">
+                        <h5>出品中</h5>
+                        <p>10</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- タブ切り替えバー -->
+    <div class="container mt-4">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+            <li class="nav-item">
+                <a class="nav-link active" id="mycloset-tab" data-toggle="tab" href="#mycloset" role="tab" aria-controls="mycloset" aria-selected="true">My-Closet</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="wishlist-tab" data-toggle="tab" href="#wishlist" role="tab" aria-controls="wishlist" aria-selected="false">交換希望</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" id="listings-tab" data-toggle="tab" href="#listings" role="tab" aria-controls="listings" aria-selected="false">出品中</a>
+            </li>
+        </ul>
+        <div class="tab-content mt-3" id="myTabContent">
+            <!-- My-Closetタブ -->
+            <div class="tab-pane fade show active" id="mycloset" role="tabpanel" aria-labelledby="mycloset-tab">
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="card">
+                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="服の画像">
+                            <div class="card-body">
+                                <h5 class="card-title">アイテム名</h5>
+                                <p class="card-text">ブランド名</p>
+                                <p class="card-text">¥価格</p>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- 他の服アイテムもここに追加 -->
+                </div>
+            </div>
+            <!-- 交換希望タブ -->
+            <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
+                <!-- 交換希望のアイテムをここに表示 -->
+            </div>
+            <!-- 出品中タブ -->
+            <div class="tab-pane fade" id="listings" role="tabpanel" aria-labelledby="listings-tab">
+                <!-- 出品中のアイテムをここに表示 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- フッター -->
+<footer class="bg-dark text-white mt-5 py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">ご質問お問い合わせ</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">FAQ</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">お問い合わせ</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">使用条件</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">利用規約</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">プライバシーポリシー</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">ポリシー・約款・規約一覧</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">ポリシー</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">約款</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">規約一覧</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">サイトマップ</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">サイトマップ</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+  
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

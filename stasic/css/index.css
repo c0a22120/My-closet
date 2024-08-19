@@ -1,0 +1,31 @@
+/* フッターのカスタムスタイル */
+footer {
+    background-color: #343a40; /* ダークグレー */
+    color: #f8f9fa; /* ライトグレーのテキスト */
+  }
+  
+  footer h5 {
+    font-size: 1.1rem;
+    margin-bottom: 1rem;
+    border-bottom: 2px solid #ff5733; /* 下線にアクセントカラー */
+    padding-bottom: 0.5rem;
+  }
+  
+  .footer-link {
+    text-decoration: none;
+    transition: color 0.3s ease;
+  }
+  
+  .footer-link:hover {
+    color: #ff5733; /* リンクホバー時のカラー */
+  }
+  
+  footer ul {
+    padding-left: 0;
+    list-style: none;
+  }
+  
+  footer ul li {
+    margin-bottom: 0.5rem;
+  }
+  

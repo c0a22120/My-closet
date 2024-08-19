@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服の登録</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/register.css') }}">
+</head>
+<body>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">My-Closet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ログアウト</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- 服の登録フォーム -->
+    <div class="container mt-4">
+        <h2 class="mb-4">服の登録</h2>
+        <form>
+            <div class="form-group">
+                <label for="name">名前</label>
+                <input type="text" class="form-control" id="name" placeholder="服の名前を入力してください">
+            </div>
+            <div class="form-group">
+                <label for="brand">ブランド</label>
+                <input type="text" class="form-control" id="brand" placeholder="ブランド名を入力してください">
+            </div>
+            <div class="form-group">
+                <label for="category">カテゴリ</label>
+                <select class="form-control" id="category">
+                    <option>靴</option>
+                    <option>アクセサリー</option>
+                    <option>アウター</option>
+                    <option>トップス</option>
+                    <option>ボトムス</option>
+                    <option>その他</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="price">値段</label>
+                <input type="number" class="form-control" id="price" placeholder="値段を入力してください">
+            </div>
+            <div class="form-group">
+                <label for="size">サイズ</label>
+                <input type="text" class="form-control" id="size" placeholder="サイズを入力してください">
+            </div>
+            <div class="form-group">
+                <label for="color">色</label>
+                <input type="text" class="form-control" id="color" placeholder="色を入力してください">
+            </div>
+            <div class="form-group">
+                <label for="gender">性別</label>
+                <select class="form-control" id="gender">
+                    <option>男</option>
+                    <option>女</option>
+                    <option>フリー</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="season">季節</label>
+                <select class="form-control" id="season">
+                    <option>春</option>
+                    <option>夏</option>
+                    <option>秋</option>
+                    <option>冬</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="description">説明</label>
+                <textarea class="form-control" id="description" rows="3" placeholder="商品の説明を入力してください"></textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">登録</button>
+        </form>
+    </div>
+
+       <!-- フッター -->
+<footer class="bg-dark text-white mt-5 py-4">
+    <div class="container">
+      <div class="row">
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">ご質問お問い合わせ</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">FAQ</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">お問い合わせ</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">使用条件</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">利用規約</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">プライバシーポリシー</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">ポリシー・約款・規約一覧</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">ポリシー</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">約款</a>
+            </li>
+            <li>
+              <a href="#" class="text-white footer-link">規約一覧</a>
+            </li>
+          </ul>
+        </div>
+        <div class="col-md-3 mb-3">
+          <h5 class="text-uppercase font-weight-bold">サイトマップ</h5>
+          <ul class="list-unstyled">
+            <li>
+              <a href="#" class="text-white footer-link">サイトマップ</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

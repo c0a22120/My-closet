@@ -1,0 +1,16 @@
+/* フォーム全体のマージンとパディングを調整 */
+.form-group {
+    margin-bottom: 20px;
+}
+
+/* ボタンのデザイン */
+.btn-primary {
+    background-color: #ff5733;
+    border-color: #ff5733;
+    transition: background-color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #e04e2c;
+    border-color: #e04e2c;
+}
