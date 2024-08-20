@@ -6,7 +6,7 @@
     <title>My Closet</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/my-closet.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/my-closet.css') }}">
 </head>
 <body>
     <!-- ナビゲーションバー -->
@@ -18,10 +18,10 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:5000/register">my-closet登録/登録ページ</a>
+                    <a class="nav-link" href="{{ url_for('register') }}">my-closet登録/登録ページ</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:5000/">ログアウト</a>
+                    <a class="nav-link" href="{{ url_for('logout') }}">ログアウト</a>
                 </li>
             </ul>
         </div>
@@ -33,25 +33,25 @@
             <div class="col-md-4 text-center">
                 <img src="https://via.placeholder.com/150" class="rounded-circle" alt="User Icon">
                 <h3 class="mt-2">{{ username }}</h3>
-                <p class="text-muted">フォロー: 123 | フォロワー: 456</p>
+                <p class="text-muted">フォロー: {{ following_count }} | フォロワー: {{ follower_count }}</p>
             </div>
             <div class="col-md-8">
                 <div class="row">
                     <div class="col-md-4">
                         <h5>服の数</h5>
-                        <p>50</p>
+                        <p>{{ clothing_count }}</p>
                     </div>
                     <div class="col-md-4">
                         <h5>合計金額</h5>
-                        <p>¥150,000</p>
+                        <p>¥{{ total_amount }}</p>
                     </div>
                     <div class="col-md-4">
                         <h5>交換希望</h5>
-                        <p>5</p>
+                        <p>{{ wishlist_count }}</p>
                     </div>
                     <div class="col-md-4">
                         <h5>出品中</h5>
-                        <p>10</p>
+                        <p>{{ listings_count }}</p>
                     </div>
                 </div>
             </div>
@@ -75,17 +75,18 @@
             <!-- My-Closetタブ -->
             <div class="tab-pane fade show active" id="mycloset" role="tabpanel" aria-labelledby="mycloset-tab">
                 <div class="row">
+                    {% for clothing in clothes %}
                     <div class="col-md-4">
                         <div class="card">
-                            <img src="https://via.placeholder.com/150" class="card-img-top" alt="服の画像">
+                            <img src="{{ url_for('static', filename='uploads/' + clothing.image) }}" class="card-img-top" alt="服の画像">
                             <div class="card-body">
-                                <h5 class="card-title">アイテム名</h5>
-                                <p class="card-text">ブランド名</p>
-                                <p class="card-text">¥価格</p>
+                                <h5 class="card-title">{{ clothing.name }}</h5>
+                                <p class="card-text">{{ clothing.brand }}</p>
+                                <p class="card-text">¥{{ clothing.price }}</p>
                             </div>
                         </div>
                     </div>
-                    <!-- 他の服アイテムもここに追加 -->
+                    {% endfor %}
                 </div>
             </div>
             <!-- 交換希望タブ -->
