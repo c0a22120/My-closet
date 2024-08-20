@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>サインアップ</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/signup.css') }}">
+</head>
+<body>
+    <!-- ナビゲーションバー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">My-Closet</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="#">ログイン</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" href="#">サインアップ</a>
+                </li>
+            </ul>
+        </div>
+    </nav>
+
+
+
+
+    <!-- サインアップフォーム -->
+    <div class="container mt-5">
+        <h2 class="mb-4">サインアップ</h2>
+
+            <!-- エラーメッセージ表示 -->
+        {% if error_message %}
+            <div class="alert alert-danger" role="alert">
+                {{ error_message }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="{{ url_for('signup') }}">
+            <div class="form-group">
+                <label for="username">ユーザー名</label>
+                <input type="text" class="form-control" id="username" name="username" placeholder="ユーザー名を入力してください">
+            </div>
+            <div class="form-group">
+                <label for="email">メールアドレス</label>
+                <input type="email" class="form-control" id="email" name="email" placeholder="メールアドレスを入力してください">
+            </div>
+            <div class="form-group">
+                <label for="password">パスワード</label>
+                <input type="password" class="form-control" id="password" name="password" placeholder="パスワードを入力してください">
+            </div>
+            <div class="form-group">
+                <label for="confirm-password">パスワードの確認</label>
+                <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="パスワードを再度入力してください">
+            </div>
+            <button type="submit" class="btn btn-primary">サインアップ</button>
+        </form>
+    </div>
+
+
+
+
+
+
+
+
+
+    <!-- フッター -->
+    <footer class="bg-dark text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">ご質問お問い合わせ</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">お問い合わせ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">使用条件</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">利用規約</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">プライバシーポリシー</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">ポリシー・約款・規約一覧</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">ポリシー</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">約款</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">規約一覧</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">サイトマップ</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">サイトマップ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
