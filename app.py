@@ -1,12 +1,26 @@
 from flask import Flask, render_template, request, redirect, url_for, flash
+from flask_sqlalchemy import SQLAlchemy
+from werkzeug.security import generate_password_hash, check_password_hash
+
+
 
 app = Flask(__name__)
-app.secret_key = '123'  # セッション管理のために必要です。適切な秘密鍵に変更してください。
+app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///users.db'
+app.config['SECRET_KEY'] = '123kkk123kkk'  # セッションやメッセージに必要
+db = SQLAlchemy(app)
 
-# 仮のユーザー情報（通常はデータベースに保存される）
-users = {
-    'test@example.com': '123'  # メールアドレスとパスワードのマッピング
-}
+# ユーザーモデルの定義
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(150), nullable=False, unique=True)
+    email = db.Column(db.String(150), nullable=False, unique=True)
+    password = db.Column(db.String(150), nullable=False)
+
+# データベースの作成
+with app.app_context():
+    db.create_all()
+    
+    
 
 @app.route('/')
 def home():
@@ -21,16 +35,26 @@ def signup():
         password = request.form.get('password')
         confirm_password = request.form.get('confirm-password')
 
-        if password == confirm_password:
-            # サインアップが成功したらログインページにリダイレクト
-            flash('サインアップが成功しました。ログインしてください。')
-            return redirect(url_for('login'))
-        else:
-            # パスワードが一致しない場合、エラーメッセージを表示する
-            flash('パスワードが一致しません。もう一度試してください。')
+        # パスワード確認
+        if password != confirm_password:
+            flash('パスワードが一致しません。')
+            return redirect(url_for('signup'))
+
+        # ユーザーの存在確認
+        existing_user = User.query.filter_by(email=email).first()
+        if existing_user:
+            flash('このメールアドレスはすでに登録されています。')
+            return redirect(url_for('signup'))
+
+        # ユーザーの登録
+        hashed_password = generate_password_hash(password, method='pbkdf2:sha256')
+        new_user = User(username=username, email=email, password=hashed_password)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('サインアップが成功しました。ログインしてください。')
+        return redirect(url_for('login'))
 
     return render_template('signup.html')
-
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -38,12 +62,14 @@ def login():
         email = request.form.get('email')
         password = request.form.get('password')
 
-        # 仮のユーザー認証処理
-        if email in users and users[email] == password:
-            flash('ログイン成功！')
-            return redirect(url_for('my_closet'))  # ログイン成功後にリダイレクトするページ
+        # ユーザーの確認
+        user = User.query.filter_by(email=email).first()
+        if user and check_password_hash(user.password, password):
+            flash('ログイン成功')
+            return redirect(url_for('my_closet'))
         else:
             flash('メールアドレスまたはパスワードが間違っています。')
+            return redirect(url_for('login'))
 
     return render_template('login.html')
 
