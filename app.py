@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
 
@@ -41,9 +41,15 @@ def signup():
             return redirect(url_for('signup'))
 
         # ユーザーの存在確認
-        existing_user = User.query.filter_by(email=email).first()
-        if existing_user:
+        existing_user_email = User.query.filter_by(email=email).first()
+        existing_user_username = User.query.filter_by(username=username).first()
+        
+        if existing_user_email:
             flash('このメールアドレスはすでに登録されています。')
+            return redirect(url_for('signup'))
+        
+        if existing_user_username:
+            flash('このユーザー名はすでに登録されています。')
             return redirect(url_for('signup'))
 
         # ユーザーの登録
@@ -65,6 +71,7 @@ def login():
         # ユーザーの確認
         user = User.query.filter_by(email=email).first()
         if user and check_password_hash(user.password, password):
+            session['username'] = user.username  # セッションにユーザー名を保存
             flash('ログイン成功')
             return redirect(url_for('my_closet'))
         else:
@@ -76,7 +83,9 @@ def login():
 
 @app.route('/my-closet')
 def my_closet():
-    return render_template('my-closet.html')
+    # セッションからユーザー情報を取得
+    username = session.get('username', 'ゲスト')
+    return render_template('my-closet.html', username=username)
 
 @app.route('/register')
 def register():
