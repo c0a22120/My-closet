@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>プロフィール画像の編集</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+    <h1>プロフィール画像の編集</h1>
+    <form action="{{ url_for('update_profile_image') }}" method="post" enctype="multipart/form-data">
+        <label for="profile_image">新しいプロフィール画像を選択:</label>
+        <input type="file" name="profile_image" id="profile_image" required>
+        <br>
+        <input type="submit" value="アップロード">
+    </form>
+    <a href="{{ url_for('my_closet') }}">マイクローゼットに戻る</a>
+</body>
+</html>

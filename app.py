@@ -4,20 +4,18 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from werkzeug.utils import secure_filename
 import os
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mycloset.db'
-app.config['SECRET_KEY'] = '123kkk123kkk'  # セッションやメッセージに必要
-app.config['UPLOAD_FOLDER'] = 'static/uploads'
-app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
+db = SQLAlchemy()
 
-db = SQLAlchemy(app)
-
+# ユーザーの登録カラム
 class User(db.Model):
+    __tablename__ = 'user'
     id = db.Column(db.Integer, primary_key=True)
     username = db.Column(db.String(150), nullable=False, unique=True)
     email = db.Column(db.String(150), nullable=False, unique=True)
     password = db.Column(db.String(150), nullable=False)
+    profile_image = db.Column(db.String(120), default='default_profile.png')
 
+# 服の登録カラム
 class Clothing(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String(150), nullable=False)
@@ -31,12 +29,28 @@ class Clothing(db.Model):
     season = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=True)
 
-with app.app_context():
-    db.create_all()
+# アプリケーションの設定
+def create_app():
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mycloset.db'
+    app.config['SECRET_KEY'] = '123kkk123kkk'  # セッションやメッセージに必要
+    app.config['UPLOAD_FOLDER'] = 'static/uploads'
+    app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16 MB limit
+
+    db.init_app(app)
+
+    with app.app_context():
+        db.create_all()  # データベースのテーブルを作成する
+
+    return app
+
+
+app = create_app()
 
 @app.route('/')
 def home():
     return render_template('index.html')
+
 
 @app.route('/signup', methods=['GET', 'POST'])
 def signup():
@@ -52,11 +66,11 @@ def signup():
 
         existing_user_email = User.query.filter_by(email=email).first()
         existing_user_username = User.query.filter_by(username=username).first()
-        
+
         if existing_user_email:
             flash('このメールアドレスはすでに登録されています。')
             return redirect(url_for('signup'))
-        
+
         if existing_user_username:
             flash('このユーザー名はすでに登録されています。')
             return redirect(url_for('signup'))
@@ -69,6 +83,7 @@ def signup():
         return redirect(url_for('login'))
 
     return render_template('signup.html')
+
 
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -95,12 +110,33 @@ def logout():
     return redirect(url_for('home'))
 
 
-
 @app.route('/my-closet')
 def my_closet():
     username = session.get('username', 'ゲスト')
     clothes = Clothing.query.all()
-    return render_template('my-closet.html', username=username, clothes=clothes)
+
+    # ユーザー情報を取得
+    user = User.query.filter_by(username=username).first()
+
+    # ユーザーが見つからない場合はデフォルトの値を設定
+    if user is None:
+        profile_image = 'default.png'  # デフォルトの画像
+    else:
+        profile_image = user.profile_image
+
+    clothing_count = len(clothes)  # 服の数をカウント
+    total_amount = sum(clothing.price for clothing in clothes)  # 合計金額を計算
+
+    return render_template(
+        'my-closet.html',
+        username=username,
+        clothes=clothes,
+        user=user,
+        profile_image=profile_image,
+        clothing_count=clothing_count,
+        total_amount=total_amount
+    )
+
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
@@ -108,7 +144,7 @@ def register():
         image = request.files['image']
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-        
+
         clothing = Clothing(
             image=filename,
             name=request.form['name'],
@@ -125,6 +161,47 @@ def register():
         db.session.commit()
         return redirect(url_for('my_closet'))
     return render_template('register.html')
+
+
+@app.route('/edit-clothing/<int:clothing_id>', methods=['GET', 'POST'])
+def edit_clothing(clothing_id):
+    clothing = Clothing.query.get_or_404(clothing_id)
+
+    if request.method == 'POST':
+        clothing.name = request.form['name']
+        clothing.brand = request.form['brand']
+        clothing.category = request.form['category']
+        clothing.price = request.form['price']
+        clothing.size = request.form['size']
+        clothing.color = request.form['color']
+        clothing.gender = request.form['gender']
+        clothing.season = request.form['season']
+        clothing.description = request.form['description']
+
+        db.session.commit()
+        flash('服の情報が更新されました！')
+        return redirect(url_for('my_closet'))
+
+
+@app.route('/update-profile-image', methods=['GET', 'POST'])
+def update_profile_image():
+    if 'username' not in session:
+        return redirect(url_for('login'))
+
+    if request.method == 'POST':
+        user = User.query.filter_by(username=session['username']).first()
+        file = request.files.get('profile_image')
+
+        if file:
+            filename = secure_filename(file.filename)
+            file.save(os.path.join('static/uploads', filename))
+            user.profile_image = filename
+            db.session.commit()
+
+        return redirect(url_for('my_closet'))
+
+    return render_template('update_profile_image.html')
+
 
 if __name__ == '__main__':
     app.run(debug=True)

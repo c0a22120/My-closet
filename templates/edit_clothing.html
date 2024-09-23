@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>服の編集</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-4">
+        <h2>服の編集</h2>
+        <form method="POST">
+            <div class="form-group">
+                <label for="name">名前</label>
+                <input type="text" class="form-control" id="name" name="name" value="{{ clothing.name }}" required>
+            </div>
+            <div class="form-group">
+                <label for="brand">ブランド</label>
+                <input type="text" class="form-control" id="brand" name="brand" value="{{ clothing.brand }}" required>
+            </div>
+            <div class="form-group">
+                <label for="category">カテゴリ</label>
+                <input type="text" class="form-control" id="category" name="category" value="{{ clothing.category }}" required>
+            </div>
+            <div class="form-group">
+                <label for="price">値段</label>
+                <input type="number" class="form-control" id="price" name="price" value="{{ (clothing.price) }}" required>
+            </div>
+            <div class="form-group">
+                <label for="size">サイズ</label>
+                <input type="text" class="form-control" id="size" name="size" value="{{ clothing.size }}" required>
+            </div>
+            <div class="form-group">
+                <label for="color">色</label>
+                <input type="text" class="form-control" id="color" name="color" value="{{ clothing.color }}" required>
+            </div>
+            <div class="form-group">
+                <label for="gender">性別</label>
+                <select class="form-control" id="gender" name="gender">
+                    <option value="男" {% if clothing.gender == '男' %}selected{% endif %}>男</option>
+                    <option value="女" {% if clothing.gender == '女' %}selected{% endif %}>女</option>
+                    <option value="フリー" {% if clothing.gender == 'フリー' %}selected{% endif %}>フリー</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="season">季節</label>
+                <input type="text" class="form-control" id="season" name="season" value="{{ clothing.season }}" required>
+            </div>
+            <div class="form-group">
+                <label for="description">説明</label>
+                <textarea class="form-control" id="description" name="description">{{ clothing.description }}</textarea>
+            </div>
+            <button type="submit" class="btn btn-primary">更新</button>
+            <a href="{{ url_for('my_closet') }}" class="btn btn-secondary">キャンセル</a>
+        </form>
+    </div>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
