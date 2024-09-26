@@ -22,7 +22,7 @@ class Clothing(db.Model):
     name = db.Column(db.String(150), nullable=False)
     brand = db.Column(db.String(150), nullable=False)
     category = db.Column(db.String(150), nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    price = db.Column(db.Integer, nullable=False)
     size = db.Column(db.String(50), nullable=False)
     color = db.Column(db.String(50), nullable=False)
     gender = db.Column(db.String(10), nullable=False)
@@ -145,12 +145,18 @@ def register():
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
 
+        try:
+            price = int(request.form['price'])
+        except ValueError:
+            flash('価格は整数でなければなりません。')
+            return redirect(url_for('register'))
+
         clothing = Clothing(
             image=filename,
             name=request.form['name'],
             brand=request.form['brand'],
             category=request.form['category'],
-            price=request.form['price'],
+            price=price,
             size=request.form['size'],
             color=request.form['color'],
             gender=request.form['gender'],
@@ -172,7 +178,11 @@ def edit_clothing(clothing_id):
         clothing.name = request.form['name']
         clothing.brand = request.form['brand']
         clothing.category = request.form['category']
-        clothing.price = request.form['price']
+        try:
+            clothing.price = int(request.form['price'])
+        except ValueError:
+            flash('価格は整数でなければなりません。')
+            return redirect(url_for('edit_clothing', clothing_id=clothing_id))
         clothing.size = request.form['size']
         clothing.color = request.form['color']
         clothing.gender = request.form['gender']
@@ -182,7 +192,6 @@ def edit_clothing(clothing_id):
         db.session.commit()  # データベースに変更を保存
         flash('服の情報が更新されました！')
         return redirect(url_for('my_closet'))
-
 
     return render_template('edit_clothing.html', clothing=clothing)
 
