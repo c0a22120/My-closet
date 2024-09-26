@@ -165,8 +165,7 @@ def register():
 
 @app.route('/edit-clothing/<int:clothing_id>', methods=['GET', 'POST'])
 def edit_clothing(clothing_id):
-    # 指定された clothing_id の服を取得。見つからなければ 404 エラーを返す
-    clothing = Clothing.query.get_or_404(clothing_id)
+    clothing = Clothing.query.get_or_404(clothing_id)  # 服の情報を取得
 
     if request.method == 'POST':
         # POST リクエスト時に服の情報を更新
@@ -184,7 +183,7 @@ def edit_clothing(clothing_id):
         flash('服の情報が更新されました！')
         return redirect(url_for('my_closet'))
 
-    # GET リクエスト時に編集用のテンプレートを表示
+
     return render_template('edit_clothing.html', clothing=clothing)
 
 
@@ -208,6 +207,16 @@ def update_profile_image():
 
     return render_template('update_profile_image.html')
 
+@app.route('/delete-clothing/<int:clothing_id>', methods=['POST'])
+def delete_clothing(clothing_id):
+    # 対象の服をデータベースから取得
+    clothing = Clothing.query.get_or_404(clothing_id)
+
+    db.session.delete(clothing)
+    db.session.commit()
+
+    flash('アイテムが削除されました。')
+    return redirect(url_for('my_closet'))
 
 if __name__ == '__main__':
     app.run(debug=True)
