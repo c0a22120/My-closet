@@ -165,9 +165,11 @@ def register():
 
 @app.route('/edit-clothing/<int:clothing_id>', methods=['GET', 'POST'])
 def edit_clothing(clothing_id):
+    # 指定された clothing_id の服を取得。見つからなければ 404 エラーを返す
     clothing = Clothing.query.get_or_404(clothing_id)
 
     if request.method == 'POST':
+        # POST リクエスト時に服の情報を更新
         clothing.name = request.form['name']
         clothing.brand = request.form['brand']
         clothing.category = request.form['category']
@@ -178,9 +180,13 @@ def edit_clothing(clothing_id):
         clothing.season = request.form['season']
         clothing.description = request.form['description']
 
-        db.session.commit()
+        db.session.commit()  # データベースに変更を保存
         flash('服の情報が更新されました！')
         return redirect(url_for('my_closet'))
+
+    # GET リクエスト時に編集用のテンプレートを表示
+    return render_template('edit_clothing.html', clothing=clothing)
+
 
 
 @app.route('/update-profile-image', methods=['GET', 'POST'])
