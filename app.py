@@ -126,7 +126,8 @@ def my_closet():
 
     clothing_count = len(clothes)  # 服の数をカウント
     total_amount = sum(clothing.price for clothing in clothes)  # 合計金額を計算
-
+    for clothe in clothes:
+        clothe.price = int(clothe.price)
     return render_template(
         'my-closet.html',
         username=username,
@@ -134,7 +135,7 @@ def my_closet():
         user=user,
         profile_image=profile_image,
         clothing_count=clothing_count,
-        total_amount=total_amount
+        total_amount=int(total_amount)
     )
 
 
@@ -156,7 +157,7 @@ def register():
             name=request.form['name'],
             brand=request.form['brand'],
             category=request.form['category'],
-            price=price,
+            price=int(price),
             size=request.form['size'],
             color=request.form['color'],
             gender=request.form['gender'],
