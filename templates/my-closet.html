@@ -81,6 +81,7 @@
                 </div>
                 <div class="row">
                     {% for clothing in clothes %}
+                    {%if clothing.exchange is false and clothing.sell is false%}
                     <div class="col-md-4">
                         <div class="card">
                             <img src="{{ url_for('static', filename='uploads/' + clothing.image) }}" class="card-img-top img-fluid" alt="服の画像">
@@ -89,19 +90,90 @@
                                 <p class="card-text">{{ clothing.brand }}</p>
                                 <p class="card-text">¥{{ clothing.price }}</p>
                                 <a href="{{ url_for('edit_clothing', clothing_id=clothing.id) }}" class="btn btn-primary">編集</a>
+                                <a href="{{ url_for('exchange_clothing', clothing_id=clothing.id) }}" 
+                                    class="btn btn-primary" 
+                                    onclick="return confirm('本当にこのアイテムを交換希望に出しますか？')">
+                                    交換希望に出す
+                                </a>
+                                
+                                <a href="{{ url_for('sell_clothing', clothing_id=clothing.id) }}" 
+                                    class="btn btn-primary" 
+                                    onclick="return confirm('本当にこのアイテムを出品しますか？')">
+                                    出品
+                                </a>
+                             
                             </div>
                         </div>
                     </div>
+                    {% endif %}
                     {% endfor %}
                 </div>
             </div>
             <!-- 交換希望タブ -->
             <div class="tab-pane fade" id="wishlist" role="tabpanel" aria-labelledby="wishlist-tab">
                 <!-- 交換希望のアイテムをここに表示 -->
+                <div class="row">
+                  {% for clothing in clothes %}
+                    {%if clothing.exchange is true and clothing.sell is false%}
+                      <div class="col-md-4">
+                          <div class="card">
+                              <img src="{{ url_for('static', filename='uploads/' + clothing.image) }}" class="card-img-top img-fluid" alt="服の画像">
+                              <div class="card-body">
+                                  <h5 class="card-title">{{ clothing.name }}</h5>
+                                  <p class="card-text">{{ clothing.brand }}</p>
+                                  <p class="card-text">¥{{ clothing.price }}</p>
+                                  <a href="{{ url_for('edit_clothing', clothing_id=clothing.id) }}" class="btn btn-primary">編集</a>
+                                  <a href="{{ url_for('exchange_stop_clothing', clothing_id=clothing.id) }}" 
+                                      class="btn btn-primary" 
+                                      onclick="return confirm('本当にこのアイテムの交換希望を取り消しますか？')">
+                                      交換希望を取り消す
+                                  </a>
+                                  
+                                  <a href="{{ url_for('sell_clothing', clothing_id=clothing.id) }}" 
+                                      class="btn btn-primary" 
+                                      onclick="return confirm('本当にこのアイテムを出品しますか？')">
+                                      出品
+                                  </a>
+                              
+                              </div>
+                          </div>
+                      </div>
+                    {% endif %}
+                  {% endfor %}
+              </div>
             </div>
             <!-- 出品中タブ -->
             <div class="tab-pane fade" id="listings" role="tabpanel" aria-labelledby="listings-tab">
                 <!-- 出品中のアイテムをここに表示 -->
+                <div class="row">
+                  {% for clothing in clothes %}
+                  {%if clothing.sell is true and clothing.exchange is false%}
+                  <div class="col-md-4">
+                      <div class="card">
+                          <img src="{{ url_for('static', filename='uploads/' + clothing.image) }}" class="card-img-top img-fluid" alt="服の画像">
+                          <div class="card-body">
+                              <h5 class="card-title">{{ clothing.name }}</h5>
+                              <p class="card-text">{{ clothing.brand }}</p>
+                              <p class="card-text">¥{{ clothing.price }}</p>
+                              <a href="{{ url_for('edit_clothing', clothing_id=clothing.id) }}" class="btn btn-primary">編集</a>
+                              <a href="{{ url_for('exchange_clothing', clothing_id=clothing.id) }}" 
+                                  class="btn btn-primary" 
+                                  onclick="return confirm('本当にこのアイテムを交換希望に出しますか？')">
+                                  交換希望に出す
+                              </a>
+                              
+                              <a href="{{ url_for('sell_stop_clothing', clothing_id=clothing.id) }}" 
+                                  class="btn btn-primary" 
+                                  onclick="return confirm('本当にこのアイテムの出品を取り消しますか？')">
+                                  出品を取り消す
+                              </a>
+                           
+                          </div>
+                      </div>
+                  </div>
+                  {% endif %}
+                  {% endfor %}
+              </div>
             </div>
         </div>
     </div>

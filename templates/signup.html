@@ -35,12 +35,17 @@
         <h2 class="mb-4">サインアップ</h2>
 
             <!-- エラーメッセージ表示 -->
+        {% with error_message = get_flashed_messages() %}
         {% if error_message %}
             <div class="alert alert-danger" role="alert">
-                {{ error_message }}
+                <ul>
+                    {% for message in error_message %}
+                    <li>{{ message }}</li>
+                    {% endfor %}
+                </ul>
             </div>
         {% endif %}
-
+        {% endwith %}
         <form method="POST" action="{{ url_for('signup') }}">
             <div class="form-group">
                 <label for="username">ユーザー名</label>

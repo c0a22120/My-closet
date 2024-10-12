@@ -17,6 +17,7 @@ class User(db.Model):
 
 # 服の登録カラム
 class Clothing(db.Model):
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'),nullable=False)
     id = db.Column(db.Integer, primary_key=True)
     image = db.Column(db.String(150), nullable=False)
     name = db.Column(db.String(150), nullable=False)
@@ -28,6 +29,8 @@ class Clothing(db.Model):
     gender = db.Column(db.String(10), nullable=False)
     season = db.Column(db.String(50), nullable=False)
     description = db.Column(db.Text, nullable=True)
+    exchange = db.Column(db.Boolean, nullable=False, default=False)
+    sell = db.Column(db.Boolean, nullable=False, default=False)
 
 # アプリケーションの設定
 def create_app():
@@ -40,6 +43,7 @@ def create_app():
     db.init_app(app)
 
     with app.app_context():
+        # db.drop_all()  # 既存のテーブルを削除する
         db.create_all()  # データベースのテーブルを作成する
 
     return app
@@ -113,10 +117,12 @@ def logout():
 @app.route('/my-closet')
 def my_closet():
     username = session.get('username', 'ゲスト')
-    clothes = Clothing.query.all()
 
     # ユーザー情報を取得
     user = User.query.filter_by(username=username).first()
+    print(user.id)
+    clothes = Clothing.query.filter_by(user_id=user.id).all()
+    
 
     # ユーザーが見つからない場合はデフォルトの値を設定
     if user is None:
@@ -145,7 +151,12 @@ def register():
         image = request.files['image']
         filename = secure_filename(image.filename)
         image.save(os.path.join(app.config['UPLOAD_FOLDER'], filename))
-
+        username = session.get('username', 'ゲスト')
+        user = User.query.filter_by(username=username).first()
+        print(username)
+        print(user)
+        users = User.query.all()
+        print(users)
         try:
             price = int(request.form['price'])
         except ValueError:
@@ -153,6 +164,7 @@ def register():
             return redirect(url_for('register'))
 
         clothing = Clothing(
+            user_id=user.id,
             image=filename,
             name=request.form['name'],
             brand=request.form['brand'],
@@ -217,6 +229,7 @@ def update_profile_image():
 
     return render_template('update_profile_image.html')
 
+
 @app.route('/delete-clothing/<int:clothing_id>', methods=['POST'])
 def delete_clothing(clothing_id):
     # 対象の服をデータベースから取得
@@ -227,6 +240,65 @@ def delete_clothing(clothing_id):
 
     flash('アイテムが削除されました。')
     return redirect(url_for('my_closet'))
+
+
+@app.route('/exchange/<int:clothing_id>')
+def exchange_clothing(clothing_id):
+    # IDを基にアイテムを取得
+    clothing = Clothing.query.get_or_404(clothing_id)
+    
+    # アイテムを交換希望に変更
+    clothing.exchange = True
+    clothing.sell = False
+    
+    
+    db.session.commit()
+    
+    flash(f"{clothing.name}を交換希望に出しました。", "success")
+    return redirect(url_for('my_closet'))  # MYページにリダイレクト
+
+
+@app.route('/sell/<int:clothing_id>')
+def sell_clothing(clothing_id):
+    # IDを基にアイテムを取得
+    clothing = Clothing.query.get_or_404(clothing_id)
+    
+    # アイテムを出品中に変更
+    clothing.exchange = False
+    clothing.sell = True
+    db.session.commit()
+    
+    flash(f"{clothing.name}を出品しました。", "success")
+    return redirect(url_for('my_closet'))  # MYページにリダイレクト
+
+
+@app.route('/exchange_stop/<int:clothing_id>')
+def exchange_stop_clothing(clothing_id):
+    # IDを基にアイテムを取得
+    clothing = Clothing.query.get_or_404(clothing_id)
+    
+    # アイテムを交換希望を取り消す
+    clothing.exchange = False
+    
+    db.session.commit()
+    
+    flash(f"{clothing.name}の交換希望を取り消しました。", "success")
+    return redirect(url_for('my_closet'))  # MYページにリダイレクト
+
+
+@app.route('/sell_stop/<int:clothing_id>')
+def sell_stop_clothing(clothing_id):
+    # IDを基にアイテムを取得
+    clothing = Clothing.query.get_or_404(clothing_id)
+    
+    # アイテムの出品中を取り消す
+    clothing.sell = False
+    db.session.commit()
+    
+    flash(f"{clothing.name}の出品を取り消しました。", "success")
+    return redirect(url_for('my_closet'))  # MYページにリダイレクト
+
+
 
 if __name__ == '__main__':
     app.run(debug=True)
