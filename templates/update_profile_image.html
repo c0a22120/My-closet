@@ -4,16 +4,92 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>プロフィール画像の編集</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
 </head>
 <body>
-    <h1>プロフィール画像の編集</h1>
-    <form action="{{ url_for('update_profile_image') }}" method="post" enctype="multipart/form-data">
-        <label for="profile_image">新しいプロフィール画像を選択:</label>
-        <input type="file" name="profile_image" id="profile_image" required>
-        <br>
-        <input type="submit" value="アップロード">
-    </form>
-    <a href="{{ url_for('my_closet') }}">マイクローゼットに戻る</a>
+    <!-- ヘッダー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
+        <a class="navbar-brand" href="#">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="My-Closet Logo">
+        </a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <li class="nav-item">
+                    <a class="nav-link" href="http://127.0.0.1:5000/">ログアウト</a>
+                </li>
+
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container mt-5">
+        <h1>プロフィール画像の編集</h1>
+        <form action="{{ url_for('update_profile_image') }}" method="post" enctype="multipart/form-data">
+            <label for="profile_image">新しいプロフィール画像を選択:</label>
+            <input type="file" name="profile_image" id="profile_image" required>
+            <br>
+            <input type="submit" value="アップロード">
+        </form>
+        <a href="{{ url_for('my_closet') }}">マイクローゼットに戻る</a>
+    </div>
+
+    <!-- フッター -->
+    <footer class="text-white mt-5 py-4">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">ご質問お問い合わせ</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">FAQ</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">お問い合わせ</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">使用条件</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">利用規約</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">プライバシーポリシー</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">ポリシー・規約一覧</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">ポリシー</a>
+                        </li>
+                        <li>
+                            <a href="#" class="text-white footer-link">規約一覧</a>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col-md-3 mb-3">
+                    <h5 class="text-uppercase font-weight-bold">サイトマップ</h5>
+                    <ul class="list-unstyled">
+                        <li>
+                            <a href="#" class="text-white footer-link">サイトマップ</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Bootstrap JS, Popper.js, and jQuery -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

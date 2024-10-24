@@ -6,13 +6,14 @@
     <title>サインアップ</title>
     <!-- Bootstrap CSS -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
-    <link rel="stylesheet" href="{{ url_for('static', filename='static/css/signup.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/header.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/footer.css') }}">
 </head>
 <body>
-    <!-- ナビゲーションバー -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <!-- ヘッダー -->
+    <nav class="navbar navbar-expand-lg navbar-light bg-white">
         <a class="navbar-brand" href="#">
-            <img src="{{ url_for('static', filename='images/my-closet_logo.png') }}" alt="My-Closet Logo" style="height: 40px;">
+            <img src="{{ url_for('static', filename='images/logo.png') }}" alt="My-Closet Logo" style="height: 40px;">
         </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
@@ -22,21 +23,15 @@
                 <li class="nav-item">
                     <a class="nav-link" href="http://127.0.0.1:5000/login">ログイン</a>
                 </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:5000/singup">サインアップ</a>
-                </li>
             </ul>
         </div>
     </nav>
-
-
-
 
     <!-- サインアップフォーム -->
     <div class="container mt-5">
         <h2 class="mb-4">サインアップ</h2>
 
-            <!-- エラーメッセージ表示 -->
+        <!-- エラーメッセージ表示 -->
         {% with error_message = get_flashed_messages() %}
         {% if error_message %}
             <div class="alert alert-danger" role="alert">
@@ -65,17 +60,9 @@
                 <label for="confirm-password">パスワードの確認</label>
                 <input type="password" class="form-control" id="confirm-password" name="confirm-password" placeholder="パスワードを再度入力してください">
             </div>
-            <button type="submit" class="btn btn-primary">サインアップ</button>
+            <button type="submit" class="btn btn-dark">サインアップ</button>
         </form>
     </div>
-
-
-
-
-
-
-
-
 
     <!-- フッター -->
     <footer class="bg-dark text-white mt-5 py-4">
@@ -104,13 +91,10 @@
                     </ul>
                 </div>
                 <div class="col-md-3 mb-3">
-                    <h5 class="text-uppercase font-weight-bold">ポリシー・約款・規約一覧</h5>
+                    <h5 class="text-uppercase font-weight-bold">ポリシー・規約一覧</h5>
                     <ul class="list-unstyled">
                         <li>
                             <a href="#" class="text-white footer-link">ポリシー</a>
-                        </li>
-                        <li>
-                            <a href="#" class="text-white footer-link">約款</a>
                         </li>
                         <li>
                             <a href="#" class="text-white footer-link">規約一覧</a>
