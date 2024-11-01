@@ -309,6 +309,46 @@ def exchange_purchase_page():
     clothes = Clothing.query.filter((Clothing.exchange == True) | (Clothing.sell == True)).all()
     return render_template('exchange_purchase_page.html', clothes=clothes)
 
+@app.route('/view_clothing/<int:clothing_id>')
+def view_clothing(clothing_id):
+    clothing = Clothing.query.get_or_404(clothing_id)
+    return render_template('view_clothing.html', clothing=clothing)
 
+@app.route('/exchange_request/<int:clothing_id>', methods=['GET', 'POST'])
+def exchange_request(clothing_id):
+    if 'username' not in session:
+        flash('ログインしてください。')
+        return redirect(url_for('login'))
+
+    clothing = Clothing.query.get_or_404(clothing_id)
+    user = User.query.filter_by(username=session['username']).first()
+
+    if request.method == 'POST':
+        exchange_item_id = request.form.get('exchange_item')
+        exchange_item = Clothing.query.get_or_404(exchange_item_id)
+        # 交換リクエストの処理をここに追加
+
+        flash(f"{clothing.name}と{exchange_item.name}の交換リクエストを送信しました。")
+        return redirect(url_for('exchange_purchase_page'))
+
+    user_clothes = Clothing.query.filter_by(user_id=user.id).all()
+    return render_template('exchange_request.html', clothing=clothing, user_clothes=user_clothes)
+
+@app.route('/purchase/<int:clothing_id>', methods=['GET', 'POST'])
+def purchase_clothing(clothing_id):
+    if 'username' not in session:
+        flash('ログインしてください。')
+        return redirect(url_for('login'))
+
+    clothing = Clothing.query.get_or_404(clothing_id)
+    user = User.query.filter_by(username=session['username']).first()
+
+    if request.method == 'POST':
+        # 購入処理をここに追加
+
+        flash(f"{clothing.name}を購入しました。")
+        return redirect(url_for('exchange_purchase_page'))
+
+    return render_template('purchase.html', clothing=clothing)
 if __name__ == '__main__':
     app.run(debug=True)
