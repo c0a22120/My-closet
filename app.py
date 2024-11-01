@@ -305,14 +305,21 @@ def sell_stop_clothing(clothing_id):
 
 @app.route('/exchange_purchase_page')
 def exchange_purchase_page():
+    user = User.query.filter_by(username=session.get('username')).first()
+    user_id = user.id if user else None  # ユーザーがログインしている場合のID
+
     # 全アイテムを取得
     clothes = Clothing.query.filter((Clothing.exchange == True) | (Clothing.sell == True)).all()
-    return render_template('exchange_purchase_page.html', clothes=clothes)
+    return render_template('exchange_purchase_page.html', clothes=clothes, user_id=user_id)
+
 
 @app.route('/view_clothing/<int:clothing_id>')
 def view_clothing(clothing_id):
     clothing = Clothing.query.get_or_404(clothing_id)
     return render_template('view_clothing.html', clothing=clothing)
+
+
+#ここから下はまだ未完成
 
 @app.route('/exchange_request/<int:clothing_id>', methods=['GET', 'POST'])
 def exchange_request(clothing_id):

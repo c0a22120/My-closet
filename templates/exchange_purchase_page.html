@@ -40,9 +40,19 @@
                         <h5 class="card-title">{{ clothing.name }}</h5>
                         <p class="card-text">{{ clothing.brand }}</p>
                         <p class="card-text">¥{{ clothing.price }}</p>
-                        <a href="{{ url_for('view_clothing', clothing_id=clothing.id) }}" class="btn btn-dark">詳細を見る</a>
-                        <a href="{{ url_for('exchange_clothing', clothing_id=clothing.id) }}" class="btn btn-dark" onclick="return confirm('本当にこのアイテムに交換希望を出しますか？')">交換希望</a>
-                        <a href="{{ url_for('sell_clothing', clothing_id=clothing.id) }}" class="btn btn-dark" onclick="return confirm('本当にこのアイテムを購入しますか？')">購入</a>
+
+                                            <!-- 自分のアイテムかどうかをチェック -->
+                    {% if clothing.user_id == user_id %}
+                    <!-- 自分のアイテムの場合 -->
+                    <span class="badge badge-info">自分のアイテム</span>
+                    <a href="{{ url_for('view_clothing', clothing_id=clothing.id) }}" class="btn btn-dark mt-2">詳細を見る</a>
+                    <a href="{{ url_for('edit_clothing', clothing_id=clothing.id) }}" class="btn btn-dark mt-2">編集する</a>
+                    {% else %}
+                    <!-- 他のユーザーのアイテムの場合 -->
+                    <a href="{{ url_for('view_clothing', clothing_id=clothing.id) }}" class="btn btn-dark mt-2">詳細を見る</a>
+                    <a href="{{ url_for('exchange_clothing', clothing_id=clothing.id) }}" class="btn btn-dark mt-2" onclick="return confirm('本当にこのアイテムに交換希望を出しますか？')">交換希望</a>
+                    <a href="{{ url_for('sell_clothing', clothing_id=clothing.id) }}" class="btn btn-dark mt-2" onclick="return confirm('本当にこのアイテムを購入しますか？')">購入</a>
+                    {% endif %}
                     </div>
                 </div>
             </div>
