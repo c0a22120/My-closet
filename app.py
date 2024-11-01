@@ -303,6 +303,12 @@ def sell_stop_clothing(clothing_id):
     return redirect(url_for('my_closet'))  # MYページにリダイレクト
 
 
+@app.route('/exchange_purchase_page')
+def exchange_purchase_page():
+    # 全アイテムを取得
+    clothes = Clothing.query.filter((Clothing.exchange == True) | (Clothing.sell == True)).all()
+    return render_template('exchange_purchase_page.html', clothes=clothes)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
