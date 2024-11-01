@@ -132,6 +132,8 @@ def my_closet():
 
     clothing_count = len(clothes)  # 服の数をカウント
     total_amount = sum(clothing.price for clothing in clothes)  # 合計金額を計算
+    total_exchange = sum(clothing.exchange for clothing in clothes)  # 交換希望の数を計算
+    total_sell = sum(clothing.sell for clothing in clothes)  # 出品中の数を計算
     for clothe in clothes:
         clothe.price = int(clothe.price)
     return render_template(
@@ -141,7 +143,9 @@ def my_closet():
         user=user,
         profile_image=profile_image,
         clothing_count=clothing_count,
-        total_amount=int(total_amount)
+        total_amount=int(total_amount),
+        total_exchange=int(total_exchange),
+        total_sell=int(total_sell)
     )
 
 
