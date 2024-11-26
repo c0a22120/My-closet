@@ -21,7 +21,7 @@
         <div class="collapse navbar-collapse" id="navbarNav">
             <ul class="navbar-nav ml-auto">
                 <li class="nav-item">
-                    <a class="nav-link" href="http://127.0.0.1:5000/login">ログイン</a>
+                    <a class="nav-link" href="{{ url_for('login') }}">ログイン</a>
                 </li>
             </ul>
         </div>
@@ -30,19 +30,6 @@
     <!-- サインアップフォーム -->
     <div class="container mt-5">
         <h2 class="mb-4">サインアップ</h2>
-
-        <!-- エラーメッセージ表示 -->
-        {% with error_message = get_flashed_messages() %}
-        {% if error_message %}
-            <div class="alert alert-danger" role="alert">
-                <ul>
-                    {% for message in error_message %}
-                    <li>{{ message }}</li>
-                    {% endfor %}
-                </ul>
-            </div>
-        {% endif %}
-        {% endwith %}
         <form method="POST" action="{{ url_for('signup') }}">
             <div class="form-group">
                 <label for="username">ユーザー名</label>

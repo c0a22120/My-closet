@@ -22,10 +22,10 @@
     <div class="collapse navbar-collapse" id="navbarNav">
       <ul class="navbar-nav ml-auto">
         <li class="nav-item">
-          <a class="nav-link" href="http://127.0.0.1:5000/login">ログイン</a>
+          <a class="nav-link" href="{{ url_for('login') }}">ログイン</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="http://127.0.0.1:5000/signup">サインアップ</a>
+          <a class="nav-link" href="{{ url_for('signup') }}">サインアップ</a>
         </li>
       </ul>
     </div>
@@ -38,7 +38,7 @@
     </div>
   </div>
 
-  print(使い方の説明を以下に追加)
+  使い方の説明を以下に追加
 
   <!-- フッター -->
   <footer class="text-white mt-5 py-4">
